@@ -1,0 +1,9 @@
+﻿@model WeddingPlanner.Models.Wedding
+
+<h1>@Model.NameOne & @Model.NameTwo 's Wedding</h1>
+<h3>Date: @Model.Date</h3>
+<h3>Guests: </h3>
+@foreach(var user in Model.GuestList){
+    <h4>@user.User.FirstName @user.User.LastName</h4>
+}
+

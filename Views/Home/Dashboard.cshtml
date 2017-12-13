@@ -1,0 +1,49 @@
+﻿@model List<WeddingPlanner.Models.Wedding>
+
+
+<h1>Welcome to the Wedding Planner</h1>
+<table border="1">
+    <tr>
+        <th>Wedding</th>
+        <th>Date</th>
+        <th>Guest</th>
+        <th>Action</th>
+    </tr>
+    @if(Model.Count != 0)
+    {
+        @foreach(var wedding in Model){
+        <tr>
+            <th><a href="/ShowWedding/@wedding.WeddingId">@wedding.NameOne & @wedding.NameTwo</a></th>
+            <th>@wedding.Date.ToString("MM-dd-yyyy")</th>
+            <th>@wedding.GuestList.Count()</th>
+            <th>
+                @{
+                    bool status = false;
+                    @if(wedding.CreatorId==ViewBag.UserId)
+                    {
+                        status=true;
+                        <a href="/DeleteWedding/@wedding.WeddingId">Delete</a>
+                    }
+                    else
+                    {
+                        @foreach(var listitem in wedding.GuestList)
+                        {
+                            @if(listitem.UserId==ViewBag.UserId)
+                            {
+                                status=true;
+                                <a href="/UNRSVP/@listitem.RSVPListId">UN-RSVP</a>
+                                break;
+                            }
+                        }
+                    }
+                    @if(status==false)
+                    {
+                        <a href="/NewRSVP/@wedding.WeddingId">RSVP</a>
+                    }
+                }
+            </th>
+        </tr>
+        }
+    }
+</table>
+<button><a href="/AddWedding">New Wedding</a></button>
